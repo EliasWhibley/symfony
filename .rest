@@ -16,3 +16,13 @@ Content-Type: application/application/json
     "username": "EliasWhibley",
     "password": "caca"
 }
+
+###
+POST http://127.0.0.1:8000/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2MDQxODM2NDUsImV4cCI6MTYwNDE4NzI0NSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiRWxpYXNXaGlibGV5In0.JpwhEdhqSS164nwRUMsdNQPFvkW082Tlvtmy_eOpSs6qPxRPNQXSvA08v78xI75rehSkZB_foXg2vCLVk2MhZKNH7s898MUTEtaKboLpwfs9WaaUD3bIhIgUJ2rCif9RG2fMii5u9ROqHKqVxu9rXiAgE9vkjb_AwV3vLUz-mEEYktew2P_BVPSmLanpIp6fwcZkjAy6LcLzUytDBemyiy3skYuioKEwp2O0aTfbKBJnA9MQLSEioJHMjsQvj7cPh40fAJT42PWIEnxxas_8B3tP_Gi1z-cqwpRfRl7tJgEpFsmUWtzU4Wz1mpNCZcYhqbf5FYhoUyfBVuJqoRncbCm_BcnJXY6EaKkTrQTTbDzVUs7awCRMcfRX-iKt2gkChJaCmbjwwlf8d1bHMkJLVnUA_qeB0Ye2mckmqPiHXyl5SpqrzCVlNUd5JBSR5CCyu9ETvyVt2kGsS9GpbO7sEKyeais4ZCTYxB5YRJCJyKZuiOXGw--2mSipRSock-nscVt_O5RQatijK1YzEi2qPYZ37nDv8ICLHDV1uaTX7xVAQQ2_m3TY_Z7J63syvPRn0jWzblW2bxri5qzdH6YEQm3T-XObynW5Gj70TKFYViuuYVGpp00mjceZKKVfv9h02qCan528AFAgnhq2WlDWL33_8qnksxDFzKnW4GejBgQ
+
+{
+    "name": "Hola",
+    "description": "Buenos días"
+}

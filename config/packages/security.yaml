@@ -4,7 +4,9 @@ security:
             algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users_in_memory: { memory: null }
+        jwt:
+            lexik_jwt:
+                class: App\Entity\Users
     firewalls:
         login:
             pattern: ^/api/login
@@ -26,8 +28,6 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
         main:
             anonymous: lazy
-            provider: users_in_memory
-
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
             # https://symfony.com/doc/current/security/impersonating_user.html
@@ -36,3 +36,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

@@ -11,6 +11,7 @@ namespace App\Controller;
 
 
 use App\Entity\Post;
+use App\Entity\Posts;
 use App\Repository\PostsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,7 +56,7 @@ class PostController extends AbstractController
                 throw new \Exception();
             }
 
-            $post = new Post();
+            $post = new Posts();
             $post->setName($request->get('name'));
             $post->setDescription($request->get('description'));
             $entityManager->persist($post);

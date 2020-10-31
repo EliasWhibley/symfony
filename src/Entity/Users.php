@@ -4,12 +4,13 @@ namespace App\Entity;
 
 use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  */
-class Users implements UserInterface
+class Users implements UserInterface, JWTUserInterface
 {
     /**
      * @ORM\Id
@@ -114,5 +115,14 @@ class Users implements UserInterface
     public function getSalt()
     {
         return null;
+    }
+
+    public static function createFromPayload($username, array $payload)
+    {
+        return new self(
+            $username,
+            $payload['roles'], // Added by default
+
+        );
     }
 }
