@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -35,13 +36,14 @@ class PostController extends AbstractController
     public function getPosts(PostsRepository $postRepository)
     {
         $data = $postRepository->findAll();
-        return $this->response($data);
+        $serializer = $this->get('serializer');
+        $response = $serializer->serialize($data, 'json');
+        return new Response($response);
     }
 
     /**
      * @param Request $request
      * @param EntityManagerInterface $entityManager
-     * @param PostRepository $postRepository
      * @return JsonResponse
      * @throws \Exception
      * @Route("/posts", name="posts_add", methods={"POST"})
@@ -59,6 +61,7 @@ class PostController extends AbstractController
             $post = new Posts();
             $post->setName($request->get('name'));
             $post->setDescription($request->get('description'));
+            $post->setCreateDate(new \DateTime());
             $entityManager->persist($post);
             $entityManager->flush();
 
@@ -78,7 +81,6 @@ class PostController extends AbstractController
 
 
     /**
-     * @param PostRepository $postRepository
      * @param $id
      * @return JsonResponse
      * @Route("/posts/{id}", name="posts_get", methods={"GET"})
@@ -100,7 +102,6 @@ class PostController extends AbstractController
     /**
      * @param Request $request
      * @param EntityManagerInterface $entityManager
-     * @param PostRepository $postRepository
      * @param $id
      * @return JsonResponse
      * @Route("/posts/{id}", name="posts_put", methods={"PUT"})
@@ -145,7 +146,6 @@ class PostController extends AbstractController
 
 
     /**
-     * @param PostRepository $postRepository
      * @param $id
      * @return JsonResponse
      * @Route("/posts/{id}", name="posts_delete", methods={"DELETE"})
