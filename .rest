@@ -1,0 +1,17 @@
+POST http://127.0.0.1:8001/register
+Content-Type: application/json
+
+{
+    "username": "EliasWhibley",
+    "password": "caca",
+    "email": "elias.huerta@gmail.com"
+}
+
+###
+POST http://127.0.0.1:8000/api/login_check
+Content-Type: application/json
+
+{
+    "username": "EliasWhibley",
+    "password": "$2y$13$xOeFO9wQhgD81efxzfMjpOgKCoyD.jjXjqgkW7aBT6UlmNXNOEPzG"
+}

@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  */
-class Users
+class Users implements UserInterface
 {
     /**
      * @ORM\Id
@@ -36,6 +37,11 @@ class Users
      * @ORM\Column(type="boolean")
      */
     private $isValid;
+
+    public function __construct($username)
+    {
+        $this->username = $username;
+    }
 
     public function getId(): ?int
     {
@@ -88,5 +94,25 @@ class Users
         $this->isValid = $isValid;
 
         return $this;
+    }
+
+    /**
+     * @return array|string[]
+     */
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSalt()
+    {
+        return null;
     }
 }
