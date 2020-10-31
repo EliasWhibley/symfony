@@ -1,4 +1,4 @@
-POST http://127.0.0.1:8001/register
+POST http://127.0.0.1:8000/register
 Content-Type: application/json
 
 {
@@ -13,5 +13,5 @@ Content-Type: application/json
 
 {
     "username": "EliasWhibley",
-    "password": "$2y$13$xOeFO9wQhgD81efxzfMjpOgKCoyD.jjXjqgkW7aBT6UlmNXNOEPzG"
+    "password": ""
 }

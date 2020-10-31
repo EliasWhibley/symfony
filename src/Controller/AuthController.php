@@ -40,6 +40,7 @@ class AuthController extends ApiController
         $user = new Users($username);
         $user->setPassword($encoder->encodePassword($user, $password));
         $user->setEmail($email);
+        $user->setIsValid(false);
         $user->setUsername($username);
         $em->persist($user);
         $em->flush();
