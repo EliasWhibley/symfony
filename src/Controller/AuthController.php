@@ -12,6 +12,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Users;
+use Exception;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +22,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class AuthController extends ApiController
 {
@@ -55,20 +60,33 @@ class AuthController extends ApiController
      */
     public function getTokenUser(Request $request, JWTTokenManagerInterface $JWTManager, UserPasswordEncoderInterface $encoder)
     {
+
+
         $em = $this->getDoctrine()->getRepository(Users::class);
-        $request = $this->transformJsonBody($request);
-        $usernameSended = $request->get('username');
+
+
+
+        $content = $request->getContent();
+        $json = json_decode($content, true);
+        $usernameSended = $json["username"];
         $findUser = $em->findOneBy([
             "username" => $usernameSended
         ]);
-        $passSended = $request->get("username");
+        $passSended = $json["password"];
+
 
         $validPassword = $encoder->isPasswordValid(
-            $findUser->get("password"), // the encoded password
+            $findUser, // the encoded password
             $passSended,       // the submitted password
 
         );
+        $serializer = $this->get('serializer');
+        $data = $serializer->serialize($findUser, 'json');
 
-        return new JsonResponse(['token' => $JWTManager->create($findUser)]);
+        if (!$validPassword) {
+            return new Exception();
+        } else {
+            return new JsonResponse(['token' => $JWTManager->create($findUser)]);
+        }
     }
 }
