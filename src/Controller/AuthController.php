@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthController extends ApiController
@@ -52,8 +53,22 @@ class AuthController extends ApiController
      * @param JWTTokenManagerInterface $JWTManager
      * @return JsonResponse
      */
-    public function getTokenUser(UserInterface $user, JWTTokenManagerInterface $JWTManager)
+    public function getTokenUser(Request $request, JWTTokenManagerInterface $JWTManager, UserPasswordEncoderInterface $encoder)
     {
-        return new JsonResponse(['token' => $JWTManager->create($user)]);
+        $em = $this->getDoctrine()->getRepository(Users::class);
+        $request = $this->transformJsonBody($request);
+        $usernameSended = $request->get('username');
+        $findUser = $em->findOneBy([
+            "username" => $usernameSended
+        ]);
+        $passSended = $request->get("username");
+
+        $validPassword = $encoder->isPasswordValid(
+            $findUser->get("password"), // the encoded password
+            $passSended,       // the submitted password
+
+        );
+
+        return new JsonResponse(['token' => $JWTManager->create($findUser)]);
     }
 }

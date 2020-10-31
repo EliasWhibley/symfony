@@ -9,9 +9,10 @@ Content-Type: application/json
 
 ###
 POST http://127.0.0.1:8000/api/login_check
-Content-Type: application/json
+Content-Type: application/x-www-form-urlencoded
+
 
 {
     "username": "EliasWhibley",
-    "password": ""
+    "password": "caca"
 }
