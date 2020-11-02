@@ -96,7 +96,9 @@ class PostController extends AbstractController
             ];
             return $this->response($data, 404);
         }
-        return $this->response($post);
+        $serializer = $this->get('serializer');
+        $response = $serializer->serialize($post, 'json');
+        return new Response($response);
     }
 
     /**
